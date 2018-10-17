@@ -190,7 +190,6 @@ angular.module("cloudberry.sidebar", ["cloudberry.common"])
     });
 
     icon2.addEventListener("click", function () {
-
       if (cloudberry.parameters.maptype !== "heatmap") {
         var premaptype = cloudberry.parameters.maptype;
         cloudberry.parameters.maptype = "heatmap";

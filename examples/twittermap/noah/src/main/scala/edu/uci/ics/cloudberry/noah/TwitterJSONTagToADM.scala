@@ -32,6 +32,7 @@ object TwitterJSONTagToADM {
       case "-state" :: value :: tail => shapeMap += StateLevel -> value; parseOption(tail)
       case "-county" :: value :: tail => shapeMap += CountyLevel -> value; parseOption(tail)
       case "-city" :: value :: tail => shapeMap += CityLevel -> value; parseOption(tail)
+      case "-zipcode" :: value :: tail => shapeMap += ZipcodeLevel -> value; parseOption(tail)
       case "-thread" :: value :: tail => threadNumber = value.toInt; parseOption(tail)
       case "-debug" :: value :: tail => isDebug = true; parseOption(tail)
       case option :: tail => System.err.println("unknown option:" + option); System.err.println(usage); System.exit(1);
@@ -58,13 +59,12 @@ object TwitterJSONTagToADM {
   //TODO make a parallel version of this one
   def main(args: Array[String]): Unit = {
     parseOption(args.toList)
-    val usGeoGnosis = profile("loading resource") {
+     val usGeoGnosis = profile("loading resource") {
       new USGeoGnosis(shapeMap.mapValues(new File(_)).toMap)
     }
 
     val thpool = Executors.newFixedThreadPool(threadNumber)
     implicit val ec: ExecutionContext = ExecutionContext.fromExecutor(thpool)
-
     val buffer = new ArrayBuffer[String](threadNumber)
 
     for (ln <- scala.io.Source.stdin.getLines()) {

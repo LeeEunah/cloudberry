@@ -175,7 +175,7 @@ angular.module('cloudberry.map', ['leaflet-directive', 'cloudberry.common','clou
         $scope.polygons.cityPolygons.setStyle($scope.styles.cityStyle);
       }
       if ($scope.polygons.zipcodePolygons) {
-          $scope.polygons.zipcodePolygons.setStyles($scope.styles.zipcodeStyle);
+          $scope.polygons.zipcodePolygons.setStyle($scope.styles.zipcodeStyle);
       }
       if ($scope.polygons.stateUpperPolygons) {
         $scope.polygons.stateUpperPolygons.setStyle($scope.styles.stateUpperStyle);
@@ -470,7 +470,8 @@ angular.module('cloudberry.map', ['leaflet-directive', 'cloudberry.common','clou
           $scope.map.addLayer($scope.polygons.countyUpperPolygons);
           $scope.loadZipcodeJsonByBound($scope.onEachFeature, moduleManager.EVENT.CHANGE_ZOOM_LEVEL,
               {level: $scope.map.getZoom(), bounds: $scope.map.getBounds()});
-          }else if ($scope.status.zoomLevel > 8) {
+          }
+          else if ($scope.status.zoomLevel > 8) {
           $scope.resetGeoInfo("county");
           if (!$scope.status.init) {
             // Publish zoom event to moduleManager

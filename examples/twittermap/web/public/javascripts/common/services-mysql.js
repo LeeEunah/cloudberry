@@ -49,6 +49,7 @@ angular.module('cloudberry.common', [])
         case "state" : return "stateID";
         case "county" : return "countyID";
         case "city" : return "cityID";
+        case "zipcode" : return "zipcodeID";
       }
     }
 
@@ -227,6 +228,7 @@ angular.module('cloudberry.common', [])
     ws.onmessage = function(event) {
       $timeout(function() {
         var result = JSONbig.parse(event.data);
+        console.log("mysql: " + JSON.stringify(result));
         switch (result.key) {
           case "sample":
             cloudberryService.commonTweetResult = result.value[0];

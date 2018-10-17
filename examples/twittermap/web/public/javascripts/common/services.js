@@ -38,6 +38,14 @@ angular.module('cloudberry.common', ['cloudberry.mapresultcache'])
               select: ["population"],
               as: ["population"]
             };
+          case "zipcode":
+            return {
+              joinKey: ["zipcode"],
+              dataset: "twitter.dsZipcodePopulation",
+              lookupKey: ["zipcodeID"],
+              select: ["population"],
+              as: ["population"]
+            };
         }
       }
     };
@@ -88,6 +96,7 @@ angular.module('cloudberry.common', ['cloudberry.mapresultcache'])
         case "state" : return "stateID";
         case "county" : return "countyID";
         case "city" : return "cityID";
+        case "zipcode" : return "zipcodeID";
       }
     }
 
@@ -311,7 +320,7 @@ angular.module('cloudberry.common', ['cloudberry.mapresultcache'])
         },
         timeBin : "day",
         geoLevel: "state",
-        geoIds : [37,51,24,11,10,34,42,9,44,48,35,4,40,6,20,32,8,49,12,22,28,1,13,45,5,47,21,29,54,17,18,39,19,55,26,27,31,56,41,46,16,30,53,38,25,36,50,33,23,2]
+        geoIds : [11, 26, 27, 28, 29, 30, 31, 36, 41, 42, 43, 44, 45, 46, 47, 48, 50]
       },
 
       countmapMapResult: [],
@@ -321,14 +330,12 @@ angular.module('cloudberry.common', ['cloudberry.mapresultcache'])
       errorMessage: null,
 
       query: function(parameters) {
-
+        console.log("type: "+parameters.maptype);
         if (ws.readyState !== ws.OPEN || typeof(parameters.keywords) === "undefined" || parameters.keywords == null || parameters.keywords.length == 0)
           return;
-
         // generate query based on map type
         switch (parameters.maptype) {
           case 'countmap':
-
             // Batch request without map result - used when the complete map result cache hit case
             var batchWithoutGeoRequest = cloudberryConfig.querySliceMills > 0 ? (JSON.stringify({
               batch: [byTimeRequest(parameters)],

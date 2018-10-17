@@ -49,6 +49,7 @@ angular.module('cloudberry.common', [])
         case "state" : return "stateID";
         case "county" : return "countyID";
         case "city" : return "cityID";
+        case "zipcode" : return "zipcodeID";
       }
     }
 
@@ -208,7 +209,7 @@ angular.module('cloudberry.common', [])
         },
         timeBin : "day",
         geoLevel: "state",
-        geoIds : [37,51,24,11,10,34,42,9,44,48,35,4,40,6,20,32,8,49,12,22,28,1,13,45,5,47,21,29,54,17,18,39,19,55,26,27,31,56,41,46,16,30,53,38,25,36,50,33,23,2]
+        geoIds : [11, 26, 27, 28, 29, 30, 31, 36, 41, 42, 43, 44, 45, 46, 47, 48, 50]
       },
 
       queryType: "search",
@@ -255,6 +256,7 @@ angular.module('cloudberry.common', [])
     ws.onmessage = function(event) {
       $timeout(function() {
         var result = JSONbig.parse(event.data);
+        console.log("postgresql: " + JSON.stringify(result));
         switch (result.key) {
           case "sample":
             cloudberryService.commonTweetResult = result.value[0];
